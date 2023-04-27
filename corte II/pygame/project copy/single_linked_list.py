@@ -101,6 +101,7 @@ class SingleLinkedList:
             while(index != node_counter):
                 current_node = current_node.next
                 node_counter += 1
+            print(current_node.value)
             return current_node.value
 
     def update_node_value(self, index, new_value):

@@ -1,12 +1,10 @@
 import pygame
-from Pane import Panel
+from PaneSub import Panel
+from ComponentSup import component
 
-class TabbedPane:
+class TabbedPane(component):
     def __init__(self, x, y, width, height):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
+        super().__init__(x, y, width, height)
         self.tabs = []
         self.active_tab = 0
 

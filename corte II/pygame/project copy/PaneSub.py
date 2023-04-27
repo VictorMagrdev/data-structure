@@ -4,7 +4,6 @@ from ButtonSubOk import ButtonOk
 from ComponentSup import component
 from single_linked_list import SingleLinkedList
 from DropdownSub import OptionBox
-from image import Image
 
 class Panel(component):
     def __init__(self, x, y, width, height, color):
@@ -29,9 +28,11 @@ class Panel(component):
         self.buttonok.draw(screen)
         for i in self.buttons:
             i.draw(screen)
+        x_pos = 10
         for i in range(1, self.SLL.get_length_sll() +1 ):
             image = self.SLL.get_node(i).value
-            image.draw(screen)
+            screen.blit(image,( x_pos , 800))
+            x_pos += 276
     
     def handle_event(self, panel):
         pass

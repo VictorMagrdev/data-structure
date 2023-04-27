@@ -1,11 +1,9 @@
 import pygame
+from ComponentSup import component
 
-class Button:
+class Button(component):
     def __init__(self, x, y, width, height, image):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
+        super().__init__(x, y, width, height)
         self.image = image
         self.checked = False
         self.objet = None
@@ -14,8 +12,6 @@ class Button:
         self.objet = object
 
     def draw(self, screen):
-
-
         # Dibuja el borde del botón
         border_color = (255, 0, 0) if self.checked else (255, 255, 0)
         pygame.draw.circle(screen, border_color,

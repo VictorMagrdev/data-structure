@@ -1,15 +1,13 @@
 import pygame
+from ComponentSup import component
 
 NEGRO = (0, 0, 0)
-class OptionBox():
+class OptionBox(component):
 
-    def __init__(self, x, y, width, height, color, highlight_color, font, option_list, selected = 0):
+    def __init__(self,x, y, width, height, color, highlight_color, font, option_list, selected = 0):
+        super().__init__(x, y, width, height)
         self.color = color
         self.highlight_color = highlight_color
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
         self.font = font
         self.option_list = option_list
         self.selected = selected
@@ -34,10 +32,12 @@ class OptionBox():
             outer_rect = (self.rect.x, self.rect.y + self.rect.height, self.rect.width, self.rect.height * len(self.option_list))
             pygame.draw.rect(screen, NEGRO, outer_rect, 2)
 
+    def updatePosicion(self):
+        return self.active_option
+    
     def update(self, event_list):
         mpos = pygame.mouse.get_pos()
         self.menu_active = self.rect.collidepoint(mpos)
-        
         self.active_option = -1
         for i in range(len(self.option_list)):
             rect = self.rect.copy()

@@ -6,7 +6,6 @@ from ButtonSub import Button
 from DropdownSub import OptionBox
 from single_linked_list import SingleLinkedList
 from ButtonSubOk import ButtonOk
-from image import Image
 
 pygame.init()
 
@@ -54,21 +53,17 @@ for image in button_images:
     buttons.append(button)
     x_pos += 276
 
+def reset (button):
+    button.checked = False
 def Okaction(opcion):
-    print(opcion)
-    x_pos = 10
     for i in buttons:
         if i.checked:
-            imagebut = pygame.image.load(i.image).convert()
-            image = Image(imagebut,x_pos , 800)
-            x_pos += 276
+            image = pygame.image.load(i.image)
             if opcion == 0:
                 panel1.SLL.create_node_sll_unshift(image)
             elif opcion == 1:
-                print("hello1")
                 panel1.SLL.create_node_sll_ends(image)
             elif opcion == 2:
-                print("hello2")
                 panel1.SLL.delete_node_sll_pop()
             elif opcion == 3:
                 panel1.SLL.delete_node_sll_pop()
@@ -82,6 +77,7 @@ def Okaction(opcion):
                 panel1.SLL.shift_node_sll()
             elif opcion == 8:
                 panel1.SLL.sort_sll()
+            reset(i)
 
 
 run = True
