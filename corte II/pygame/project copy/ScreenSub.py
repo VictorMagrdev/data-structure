@@ -6,9 +6,10 @@ from ButtonSub import Button
 from DropdownSub import OptionBox
 from single_linked_list import SingleLinkedList
 from ButtonSubOk import ButtonOk
+from sllprint import sllprint
 
 pygame.init()
-
+imagenes = sllprint()
 SLL = SingleLinkedList()
 screen = pygame.display.set_mode((900, 630))
 color = (25,54,240)
@@ -41,6 +42,7 @@ tabbed_pane.add_tab("DLL", panel2)
 panel1.dropdown = list1
 panel1.buttonok = buttonok
 panel1.SLL = SLL
+panel1.sllprint = imagenes
 
 button_images = ["dragonbordred.png",
                 "dragonbornmonk.png",
@@ -79,7 +81,6 @@ def Okaction(opcion):
                 panel1.SLL.sort_sll()
             reset(i)
 
-
 run = True
 while run:
     event_list = pygame.event.get()
@@ -89,10 +90,10 @@ while run:
         activeopcion = 0
         if selected_option > -1:
             activeopcion = selected_option
-            print(selected_option)
         if event.type == pygame.QUIT:
             run = False
         tabbed_pane.handle_event(event)
+        
         if buttonok.handle_event(event):
             Okaction(activeopcion)
             panel1.draw(screen)
