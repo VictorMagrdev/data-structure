@@ -152,6 +152,7 @@ class SingleLinkedList:
             previo = curr
             curr = next 
         self.head = previo 
+        
     def erase_all(self):
         while self.head != None:
             remove_node = self.head

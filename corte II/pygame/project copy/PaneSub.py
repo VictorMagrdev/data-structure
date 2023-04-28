@@ -5,6 +5,7 @@ from ComponentSup import component
 from single_linked_list import SingleLinkedList
 from DropdownSub import OptionBox
 from sllprint import sllprint
+from NumericInput import NumericInputBox
 
 class Panel(component):
     def __init__(self, x, y, width, height, color):
@@ -24,15 +25,98 @@ class Panel(component):
         self.SLL = SingleLinkedList()
         self.sllprinte = sllprint()
 
-    def draw(self, screen):
-        screen.blit(self.surface, (self.x, self.y))
-        
+    #Agregar un elemento al principio de la lista simplemente
+    def opcionone(self,image):
+        self.SLL.create_node_sll_unshift(image)
         imagelist = list()
         for i in range(1, self.SLL.get_length_sll() +1 ):
             image = self.SLL.get_node(i).value
-            print(image)
             imagelist.append(image)
-        self.sllprint.image = imagelist
+        self.sllprinte.image = imagelist
+
+    #Agregar un elemento al final de la lista
+    def opciontwo(self,image):
+        self.SLL.create_node_sll_ends(image)
+        imagelist = list()
+        for i in range(1, self.SLL.get_length_sll() +1 ):
+            image = self.SLL.get_node(i).value
+            imagelist.append(image)
+        self.sllprinte.image = imagelist
+    
+    #Eliminar el primer elemento de la lista
+    def opcionthree(self):
+        self.SLL.shift_node_sll()
+        imagelist = list()
+        for i in range(1, self.SLL.get_length_sll() +1 ):
+            image = self.SLL.get_node(i).value
+            imagelist.append(image)
+        self.sllprinte.image = imagelist
+    
+    #Eliminar el último elemento de la lista
+    def opcionfour(self):
+        self.SLL.delete_node_sll_pop()
+        imagelist = list()
+        for i in range(1, self.SLL.get_length_sll() +1 ):
+            image = self.SLL.get_node(i).value
+            imagelist.append(image)
+        self.sllprinte.image = imagelist
+    
+    #Invertir la lista
+    def opcionfive(self):
+        self.SLL.reverse()
+        self.sllprinte.image.clear()
+        imagelist = list()
+        for i in range(1, self.SLL.get_length_sll() +1):
+            image = self.SLL.get_node(i).value
+            imagelist.append(image)
+        self.sllprinte.image = imagelist
+        print(self.sllprinte.image) # imprimir los valores de la lista de imágenes
+
+    
+    #Eliminar todos los elementos de la lista
+    def opcionsix(self):
+        self.SLL.erase_all()
+        imagelist = list()
+        for i in range(1, self.SLL.get_length_sll() +1 ):
+            image = self.SLL.get_node(i).value
+            imagelist.append(image)
+        self.sllprinte.image = imagelist
+    
+    #Eliminar un elemento en una posición determinada de la lista
+    def opcionseven(self, screen):
+        input_box = NumericInputBox()
+        value = input_box.run(screen)
+        self.SLL.remove_node(value)
+        imagelist = list()
+        for i in range(1, self.SLL.get_length_sll() +1 ):
+            image = self.SLL.get_node(i).value
+            imagelist.append(image)
+        self.sllprinte.image = imagelist
+    
+    #Insertar un elemento en una posición determinada de la lista
+    def opcioneight(self,image, screen):
+        input_box = NumericInputBox()
+        value = input_box.run(screen)
+        self.SLL.insert_at_position(image, value)
+        imagelist = list()
+        for i in range(1, self.SLL.get_length_sll() +1 ):
+            image = self.SLL.get_node(i).value
+            imagelist.append(image)
+        self.sllprinte.image = imagelist
+    
+    #Actualizar el valor de un elemento en una posición determinada de la lista
+    def opcionnine(self, image, screen):
+        input_box = NumericInputBox()
+        value = input_box.run(screen)
+        self.SLL.update_node_value(value, image)
+        imagelist = list()
+        for i in range(1, self.SLL.get_length_sll() +1 ):
+            image = self.SLL.get_node(i).value
+            imagelist.append(image)
+        self.sllprinte.image = imagelist
+
+    def draw(self, screen):
+        screen.blit(self.surface, (self.x, self.y))
         
         self.sllprinte.draw(screen)
         self.dropdown.draw(screen)

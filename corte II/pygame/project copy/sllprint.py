@@ -14,15 +14,14 @@ class sllprint():
         available_height = self.rect.height - 10  
         x = self.rect.x + 5 
         y = self.rect.y + 5
-        for imagen in self.image:
-            print(image)
+        for image in self.image:
             if image.get_width() > available_width or image.get_height() > available_height:
                 ratio = min(available_width / image.get_width(), available_height / image.get_height())
                 new_size = (int(image.get_width() * ratio), int(image.get_height() * ratio))
                 image = pygame.transform.scale(image, new_size)
             
             screen.blit(image, (x, y))
-            x += image.get_width() + 5  # Agrega el espacio entre imágenes
+            x += image.get_width() + 5
 
 
 
