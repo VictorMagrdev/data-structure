@@ -113,19 +113,22 @@ class SingleLinkedList:
             print("     >> No se encontro el nodo <<") 
             
     def remove_node(self, index):
-        if index == 1:
-            self.shift_node_sll()
-        elif index == self.length:
-            self.delete_node_sll_pop()
-        else:
-            remove_node_sll = self.get_node(index)
-            if remove_node_sll!= None:
-                previous_node = self.get_node(index - 1)
-                print(self.get_node(index).value)
-                previous_node.next = remove_node_sll.next
-                remove_node_sll.next = None
+            if index < 1 or index > self.length:
+                raise IndexError("Índice fuera de rango.")
+            if index == 1:
+                self.head = self.head.next
+                if self.length == 1:
+                    self.tail = None
             else:
-                print('     >> No se encontro el nodo <<')
+                prev = None
+                current = self.head
+                for i in range(index - 1):
+                    prev = current
+                    current = current.next
+                prev.next = current.next
+                if index == self.length:
+                    self.tail = prev
+            self.length -= 1
     
     def get_length_sll(self):
         return self.length

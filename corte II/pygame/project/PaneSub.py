@@ -86,7 +86,7 @@ class Panel(component):
     def opcionseven(self, screen):
         self.sllprinte.image.clear()
         input_box = NumericInputBox()
-        value = input_box.run(screen)
+        value = int(input_box.run(screen))
         self.SLL.remove_node(value)
         imagelist = list()
         for i in range(1, self.SLL.get_length_sll() +1 ):
@@ -98,7 +98,7 @@ class Panel(component):
     def opcioneight(self,image, screen):
         self.sllprinte.image.clear()
         input_box = NumericInputBox()
-        value = input_box.run(screen)
+        value = int(input_box.run(screen))
         self.SLL.insert_at_position(image, value)
         imagelist = list()
         for i in range(1, self.SLL.get_length_sll() +1 ):
@@ -110,7 +110,7 @@ class Panel(component):
     def opcionnine(self, image, screen):
         self.sllprinte.image.clear()
         input_box = NumericInputBox()
-        value = input_box.run(screen)
+        value = int(input_box.run(screen))
         self.SLL.update_node_value(value, image)
         imagelist = list()
         for i in range(1, self.SLL.get_length_sll() +1 ):
