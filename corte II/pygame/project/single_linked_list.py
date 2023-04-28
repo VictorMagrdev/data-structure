@@ -101,6 +101,7 @@ class SingleLinkedList:
             while(index != node_counter):
                 current_node = current_node.next
                 node_counter += 1
+            print(current_node.value)
             return current_node.value
 
     def update_node_value(self, index, new_value):
@@ -140,17 +141,26 @@ class SingleLinkedList:
         print("Del nodo "+ search_node +" su indice es: " + str(seach_index))
     
     def reverse(self):
-        if self.head is None or self.head.next is None:
-            return
-        previo = None
-        curr = self.head
-        next = None
-        while curr is not None:
-            next = curr.next
-            curr.next = previo
-            previo = curr
-            curr = next 
-        self.head = previo 
+            if self.length > 1:
+                aux_head = self.tail
+                aux_tail = self.head
+                if self.length == 2:
+                    self.head = aux_head
+                    self.head.next = aux_tail
+                    self.tail = aux_tail
+                    self.tail.next = None
+                    return
+
+                current_node = self.tail
+                for i in range (1, self.length - 1):
+                    node = self.get_node(self.length - i)
+                    current_node.next = node
+                    current_node = node
+                node.next = aux_tail
+                self.head = aux_head
+                self.tail = aux_tail
+                self.tail.next=None 
+        
     def erase_all(self):
         while self.head != None:
             remove_node = self.head

@@ -6,10 +6,11 @@ from ButtonSub import Button
 from DropdownSub import OptionBox
 from single_linked_list import SingleLinkedList
 from ButtonSubOk import ButtonOk
-from image import Image
+from sllprint import sllprint
+from NumericInput import NumericInputBox
 
 pygame.init()
-
+imagenes = sllprint()
 SLL = SingleLinkedList()
 screen = pygame.display.set_mode((900, 630))
 color = (25,54,240)
@@ -42,6 +43,7 @@ tabbed_pane.add_tab("DLL", panel2)
 panel1.dropdown = list1
 panel1.buttonok = buttonok
 panel1.SLL = SLL
+panel1.sllprint = imagenes
 
 button_images = ["dragonbordred.png",
                 "dragonbornmonk.png",
@@ -54,52 +56,51 @@ for image in button_images:
     buttons.append(button)
     x_pos += 276
 
-def Okaction(opcion):
-    print(opcion)
-    x_pos = 10
+def reset (button):
+    button.checked = False
+def Okaction(opcion, screen):
+    print("posicion "+str(opcion))
     for i in buttons:
         if i.checked:
-            imagebut = pygame.image.load(i.image).convert()
-            image = Image(imagebut,x_pos , 800)
-            x_pos += 276
+            image = i.image
             if opcion == 0:
-                panel1.SLL.create_node_sll_unshift(image)
+                panel1.opcionone(image)
             elif opcion == 1:
-                print("hello1")
-                panel1.SLL.create_node_sll_ends(image)
-            elif opcion == 2:
-                print("hello2")
-                panel1.SLL.delete_node_sll_pop()
-            elif opcion == 3:
-                panel1.SLL.delete_node_sll_pop()
-            elif opcion == 4:
-                panel1.SLL.reverse()
-            elif opcion == 5:
-                panel1.SLL.erase_all()
-            elif opcion == 6:
-                panel1.SLL.remove_node(i)
+                panel1.opciontwo(image)
             elif opcion == 7:
-                panel1.SLL.shift_node_sll()
+                panel1.opcioneight(image, screen)     
             elif opcion == 8:
-                panel1.SLL.sort_sll()
-
+                panel1.opcionnine(image, screen)
+            reset(i)
+        
+    if opcion == 2:
+        panel1.opcionthree()
+    elif opcion == 3:
+        panel1.opcionfour()
+    elif opcion == 4:
+        panel1.opcionfive()
+    elif opcion == 5:
+        panel1.opcionsix()
+    elif opcion == 6:
+        panel1.opcionseven(screen)
 
 run = True
+activeopcion = -1  # initialize activeopcion outside of the loop
 while run:
     event_list = pygame.event.get()
-    
+
     for event in event_list:
         selected_option = list1.update(event_list)
-        activeopcion = 0
-        if selected_option > -1:
-            activeopcion = selected_option
-            print(selected_option)
+        if selected_option >= 0:
+            list1.updatePosicion()
+            activeopcion = list1.active_option
+            print("posicion "+str(activeopcion))
+        if buttonok.handle_event(event):
+            Okaction(activeopcion, screen)
+            panel1.sllprinte.draw(screen)
         if event.type == pygame.QUIT:
             run = False
         tabbed_pane.handle_event(event)
-        if buttonok.handle_event(event):
-            Okaction(activeopcion)
-            panel1.draw(screen)
         for button in buttons:
             button.handle_event(event)
 

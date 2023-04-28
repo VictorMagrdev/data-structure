@@ -15,6 +15,7 @@ class sllprint():
         x = self.rect.x + 5 
         y = self.rect.y + 5
         for image in self.image:
+            image = pygame.image.load(image)
             if image.get_width() > available_width or image.get_height() > available_height:
                 ratio = min(available_width / image.get_width(), available_height / image.get_height())
                 new_size = (int(image.get_width() * ratio), int(image.get_height() * ratio))
