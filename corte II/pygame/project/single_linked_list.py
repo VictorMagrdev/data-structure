@@ -1,3 +1,4 @@
+import os
 class SingleLinkedList:
 
     class Node:
@@ -193,9 +194,25 @@ class SingleLinkedList:
         else:
             counter = 1
             current = self.head 
-            while counter < position-1:
+            while counter < position -1:
                 counter += 1
                 current = current.next 
             new_node.next = current.next 
             current.next = new_node 
         self.length += 1
+    
+    def remove_duplicates(self):
+        if self.head is None:
+            return
+        
+        current = self.head
+        seen_values = {current.value}
+        
+        while current.next is not None:
+            if current.next.value in seen_values:
+                current.next = current.next.next
+                self.length -= 1
+            else:
+                seen_values.add(current.next.value)
+                current = current.next
+        self.tail = current

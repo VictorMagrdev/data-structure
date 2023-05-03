@@ -70,7 +70,6 @@ class Panel(component):
             image = self.SLL.get_node(i).value
             imagelist.append(image)
         self.sllprinte.image = imagelist
-        print(self.sllprinte.image) # imprimir los valores de la lista de imágenes
 
     
     #Eliminar todos los elementos de la lista
@@ -118,6 +117,15 @@ class Panel(component):
             imagelist.append(image)
         self.sllprinte.image = imagelist
 
+    def opcionten(self):
+        self.sllprinte.image.clear()
+        self.SLL.remove_duplicates()
+        imagelist = list()
+        for i in range(1, self.SLL.get_length_sll() +1 ):
+            image = self.SLL.get_node(i).value
+            imagelist.append(image)
+        self.sllprinte.image = imagelist
+    
     def draw(self, screen):
         screen.blit(self.surface, (self.x, self.y))
         
