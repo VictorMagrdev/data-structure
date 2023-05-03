@@ -234,24 +234,24 @@ class SingleLinkedList:
         self.tail = current
         
     def join_equal_nodes(self):
-        print("llega")
         if self.head is None:
             pass
         else:
             current = self.head
+            seconcurrent = self.head
             seen_values = [current.value]
             duplicate_values = []
             while current.next is not None:
-                i = 1
                 if current.next.value in seen_values:
                     duplicate_values.append(current.next.value)
-                    self.remove_node(i)
-                    current.next = current.next.next
+                    seen_values.remove(current.next.value)
+                    current.next = current.next
                 else:
                     seen_values.append(current.next.value)
                     current = current.next
-                i+=1
-            self.tail = current
+            self.erase_all()
+            for i in seen_values:
+                self.create_node_sll_ends(i)
             for i in duplicate_values:
                 self.create_node_sll_ends(i)
     
