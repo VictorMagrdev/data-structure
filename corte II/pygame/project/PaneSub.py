@@ -125,6 +125,15 @@ class Panel(component):
             image = self.SLL.get_node(i).value
             imagelist.append(image)
         self.sllprinte.image = imagelist
+        
+    def opcioneleven(self):
+        self.sllprinte.image.clear()
+        self.SLL.join_equal_nodes()
+        imagelist = list()
+        for i in range(1, self.SLL.get_length_sll() +1 ):
+            image = self.SLL.get_node(i).value
+            imagelist.append(image)
+        self.sllprinte.image = imagelist
     
     def draw(self, screen):
         screen.blit(self.surface, (self.x, self.y))

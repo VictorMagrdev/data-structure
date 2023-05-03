@@ -7,6 +7,7 @@ from DropdownSub import OptionBox
 from single_linked_list import SingleLinkedList
 from ButtonSubOk import ButtonOk
 from sllprint import sllprint
+from alert import AlertBox
 
 pygame.init()
 imagenes = sllprint()
@@ -28,7 +29,8 @@ list1 = OptionBox(
     "Eliminar un elemento en una posición determinada de la lista",
     "Insertar un elemento en una posición determinada de la lista",
     "Actualizar el valor de un elemento en una posición determinada de la lista",
-    "remover nodos duplicados"
+    "remover nodos duplicados",
+    "ordenar duplicados"
     ])
 buttonok = ButtonOk(700, 340, 50, 30, "ok")
 
@@ -58,7 +60,7 @@ for image in button_images:
 def reset (button):
     button.checked = False
 def Okaction(opcion, screen):
-    print("posicion "+str(opcion))
+    
     for i in buttons:
         if i.checked:
             image = i.image
@@ -84,6 +86,8 @@ def Okaction(opcion, screen):
         panel1.opcionseven(screen)
     elif opcion == 9:
         panel1.opcionten()
+    elif opcion == 10:
+        panel1.opcioneleven()
 
 run = True
 activeopcion = -1  
