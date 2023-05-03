@@ -60,34 +60,37 @@ for image in button_images:
 def reset (button):
     button.checked = False
 def Okaction(opcion, screen):
-    
-    for i in buttons:
-        if i.checked:
-            image = i.image
-            if opcion == 0:
-                panel1.opcionone(image)
-            elif opcion == 1:
-                panel1.opciontwo(image)
-            elif opcion == 7:
-                panel1.opcioneight(image, screen)     
-            elif opcion == 8:
-                panel1.opcionnine(image, screen)
-            reset(i)
-        
-    if opcion == 2:
-        panel1.opcionthree()
-    elif opcion == 3:
-        panel1.opcionfour()
-    elif opcion == 4:
-        panel1.opcionfive()
-    elif opcion == 5:
-        panel1.opcionsix()
-    elif opcion == 6:
-        panel1.opcionseven(screen)
-    elif opcion == 9:
-        panel1.opcionten()
-    elif opcion == 10:
-        panel1.opcioneleven()
+    if (panel1.SLL.length <= 7):    
+        for i in buttons:
+            if i.checked:
+                image = i.image
+                if opcion == 0:
+                    panel1.opcionone(image)
+                elif opcion == 1:
+                    panel1.opciontwo(image)
+                elif opcion == 7:
+                    panel1.opcioneight(image, screen)     
+                elif opcion == 8:
+                    panel1.opcionnine(image, screen)
+                reset(i)
+            
+        if opcion == 2:
+            panel1.opcionthree()
+        elif opcion == 3:
+            panel1.opcionfour()
+        elif opcion == 4:
+            panel1.opcionfive()
+        elif opcion == 5:
+            panel1.opcionsix()
+        elif opcion == 6:
+            panel1.opcionseven(screen)
+        elif opcion == 9:
+            panel1.opcionten()
+        elif opcion == 10:
+            panel1.opcioneleven()
+    if panel1.SLL.length > 7:
+        alertBox = AlertBox()
+        alertBox.run(screen)
 
 run = True
 activeopcion = -1  
