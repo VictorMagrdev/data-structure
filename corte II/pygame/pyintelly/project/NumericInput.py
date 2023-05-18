@@ -1,5 +1,6 @@
 import pygame
 
+
 class NumericInputBox:
     def __init__(self, width=300, height=200, font_name='Arial', font_size=20):
         pygame.init()

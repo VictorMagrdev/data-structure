@@ -1,7 +1,9 @@
+import sys
+
 import pygame
-from ComponentSup import component
+
 from PaneSub import Panel
-from Player import Player
+
 
 class Panelcards(Panel):
     def __init__(self, x, y, width, height, color):
@@ -9,9 +11,19 @@ class Panelcards(Panel):
         self.color = color
         self.surface = pygame.Surface((width, height))
         self.surface.fill(color)
-        self.players = list()
-    
+        self.crupier = None
+
+        self.play_button_rect = pygame.Rect(50, 50, 100, 50)
+        self.replay_button_rect = pygame.Rect(50, 50, 100, 50)
+        self.font = pygame.font.Font(None, 36)
+
+        self.playing = False
+        self.opacity_enabled = False  # Variable de instancia para habilitar la opacidad
+
     def draw(self, screen):
         screen.blit(self.surface, (self.x, self.y))
-        for i in self.players:
-            i.draw(screen)
+        self.crupier.draw(screen)
+
+    def handle_event(self, event):
+        pass
+

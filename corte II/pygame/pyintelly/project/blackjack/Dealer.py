@@ -1,6 +1,3 @@
-import pygame
-import random
-
 
 class Dealer:
     def __init__(self, deck, players):
@@ -16,10 +13,6 @@ class Dealer:
                 card = self.deck.draw()
                 player.add_card(card)
             card = self.deck.draw()
-            if i == 0:
-                self.hidden_card = card
-            else:
-                self.hand.append(card)
                 
     def play(self):
         """El crupier juega su mano según las reglas."""
@@ -33,8 +26,7 @@ class Dealer:
         
     def reveal_hidden_card(self):
         """Revela la carta oculta del crupier."""
-        self.hand.insert(0, self.hidden_card)
-        self.hidden_card = None
+        self.hand.insert(0)
         
     def hand_value(self):
         """Calcula el valor de la mano del crupier."""

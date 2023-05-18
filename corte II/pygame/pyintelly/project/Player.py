@@ -1,14 +1,14 @@
 import pygame
-from buttoncard import ButtonCARD
-from Card import Card
+
 
 class Player:
-    def __init__(self, name,x,y, button):
+    def __init__(self, name, x, y, button):
         self.name = name
         self.x = x
         self.y = y
         self.cards = []
         self.button = button
+        self.turno = False
 
     def add_card(self, card):
         self.cards.append(card)
@@ -21,11 +21,16 @@ class Player:
 
     def get_name(self):
         return self.name
-    
+
     def draw(self, screen):
         self.button.draw(screen)
-        for i in self.cards:
-            i.draw(screen)
+        offset = 30  # Distancia vertical entre cada carta
+
+        for i, card in enumerate(self.cards):
+            card.x = self.x - (i * offset) + 30
+            card.y = self.y - 60
+            card.draw(screen)
+
         font = pygame.font.SysFont('Arial', 25)
-        text = font.render(self.name,True, (0,0,0))
-        screen.blit(text, (self.x , self.y))
+        text = font.render(self.name, True, (0, 0, 0))
+        screen.blit(text, (self.x, self.y))

@@ -1,4 +1,3 @@
-import pygame
 from pygame import *
 
 init()
@@ -22,13 +21,13 @@ class Rectangle:
         self.input_rect.w = self.text_surface.get_width() + 10
         screen.blit(self.text_surface, (self.input_rect.x + 5, self.input_rect.y + 5))
 
-    def naming(self, events):
+    def naming(self, internevents):
         global rect_1
         global name_text
 
-        for e in events:
-            if e.type == MOUSEBUTTONDOWN:
-                mx, my = e.pos
+        for iter_e in internevents:
+            if iter_e.type == MOUSEBUTTONDOWN:
+                mx, my = iter_e.pos
                 if self.input_rect.x + 150 >= mx >= self.input_rect.x - 10:
                     if self.input_rect.y + 40 >= my >= self.input_rect.y - 10:
                         self.active = True
@@ -36,34 +35,34 @@ class Rectangle:
                     if not self.input_rect.y + 40 >= my >= self.input_rect.y - 10:
                         self.active = False
 
-            if e.type == KEYDOWN:
+            if iter_e.type == KEYDOWN:
                 if self.active:
-                    if e.key == K_BACKSPACE:
+                    if iter_e.key == K_BACKSPACE:
                         name_text = name_text[:-1]
                     else:
-                        name_text += e.unicode
+                        name_text += iter_e.unicode
                     self.text_surface = name_font.render(name_text, True, (255, 255, 255))
-    
-    def draw(self, screen):
-        draw.rect(screen, (0, 0, 0), self.input_rect, 0)
-        draw.rect(screen, (255, 255, 255), self.input_rect, 2)
+
+    def draw(self, screenintern):
+        draw.rect(screenintern, (0, 0, 0), self.input_rect, 0)
+        draw.rect(screenintern, (255, 255, 255), self.input_rect, 2)
         self.input_rect.w = self.text_surface.get_width() + 10
-        screen.blit(self.text_surface, (self.input_rect.x + 5, self.input_rect.y + 5))
+        screenintern.blit(self.text_surface, (self.input_rect.x + 5, self.input_rect.y + 5))
 
 
 rect_1 = Rectangle(200, 200)
 
 run = True
-while run :
-    
+while run:
+
     events = event.get()
     for e in events:
         if e.type == QUIT:
             run = False
-    
+
     rect_1.naming(events)
 
     screen.fill(0)
-    rect_1.draw(screen)  
+    rect_1.draw(screen)
     display.update()
-    time.delay(1)  
+    time.delay(1)

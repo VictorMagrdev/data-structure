@@ -1,6 +1,5 @@
-from Card import Card
-import pygame
 import random
+
 
 class Deck:
     def __init__(self):

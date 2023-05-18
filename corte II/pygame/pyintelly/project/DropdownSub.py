@@ -1,10 +1,12 @@
 import pygame
-from ComponentSup import component
+from ComponentSup import Component
 
 NEGRO = (0, 0, 0)
-class OptionBox(component):
 
-    def __init__(self,x, y, width, height, color, highlight_color, font, option_list, selected = 0):
+
+class OptionBox(Component):
+
+    def __init__(self, x, y, width, height, color, highlight_color, font, option_list, selected=0):
         super().__init__(x, y, width, height)
         self.color = color
         self.highlight_color = highlight_color
@@ -20,28 +22,29 @@ class OptionBox(component):
         pygame.draw.rect(screen, self.highlight_color if self.menu_active else self.color, self.rect)
         pygame.draw.rect(screen, NEGRO, self.rect, 2)
         msg = self.font.render(self.option_list[self.selected], 1, NEGRO)
-        screen.blit(msg, msg.get_rect(center = self.rect.center))
+        screen.blit(msg, msg.get_rect(center=self.rect.center))
 
         if self.draw_menu:
             for i, text in enumerate(self.option_list):
                 rect = self.rect.copy()
-                rect.y += (i+1) * self.rect.height
+                rect.y += (i + 1) * self.rect.height
                 pygame.draw.rect(screen, self.highlight_color if i == self.active_option else self.color, rect)
                 msg = self.font.render(text, 1, NEGRO)
-                screen.blit(msg, msg.get_rect(center = rect.center))
-            outer_rect = (self.rect.x, self.rect.y + self.rect.height, self.rect.width, self.rect.height * len(self.option_list))
+                screen.blit(msg, msg.get_rect(center=rect.center))
+            outer_rect = (
+                self.rect.x, self.rect.y + self.rect.height, self.rect.width, self.rect.height * len(self.option_list))
             pygame.draw.rect(screen, NEGRO, outer_rect, 2)
 
-    def updatePosicion(self):
+    def updateposicion(self):
         return self.active_option
-    
+
     def update(self, event_list):
         mpos = pygame.mouse.get_pos()
         self.menu_active = self.rect.collidepoint(mpos)
         self.active_option = -1
         for i in range(len(self.option_list)):
             rect = self.rect.copy()
-            rect.y += (i+1) * self.rect.height
+            rect.y += (i + 1) * self.rect.height
             if rect.collidepoint(mpos):
                 self.active_option = i
                 break

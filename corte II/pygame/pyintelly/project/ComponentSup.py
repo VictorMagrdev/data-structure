@@ -1,7 +1,7 @@
-import pygame
 from abc import ABC, abstractmethod
 
-class component(ABC):
+
+class Component(ABC):
     def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
@@ -9,5 +9,5 @@ class component(ABC):
         self.height = height
 
     @abstractmethod
-    def draw():
+    def draw(self, screen):
         pass

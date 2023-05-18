@@ -1,5 +1,6 @@
 import pygame
 
+
 class AlertBox:
     def __init__(self, width=500, height=250, font_name='Arial', font_size=20):
         pygame.init()
@@ -13,6 +14,7 @@ class AlertBox:
         self.color = self.color_inactive
         self.text = """no puede agregar mas mas de 7 lementos a la lista   presione enter para continuar"""
         self.active = True
+
     def run(self, screen):
         running = True
         while running:
@@ -27,8 +29,8 @@ class AlertBox:
                         self.active = False
                     self.color = self.color_active if self.active else self.color_inactive
                 if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_RETURN:
-                            running = False
+                    if event.key == pygame.K_RETURN:
+                        running = False
 
             pygame.draw.rect(screen, self.color, self.input_box)
 
