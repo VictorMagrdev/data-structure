@@ -131,7 +131,6 @@ def turn(buttonevent):
         player2.turno  = False
         player1.turno = True
         cruppier.analizarpuntaje()
-        cruppier.cruppierturn()
         cruppier.determinar_resultados()
     def plantarseturn(event):
         if player1.turno == True and button1.handle_event(buttonevent):
@@ -201,12 +200,15 @@ while run:
         
         if buttonpedir.handle_event(event):
             turn(event)
+            
         cruppier.shuffle()
         start = buttonstart.handle_event(event)
         if buttonreset.handle_event(event):
             cruppier.remove_cards_from_players()
         if start:
             cruppier.repartir_card()
+            cruppier.analizarpuntaje()
+            cruppier.cruppierturn()
 
         for button in buttons:
             button.handle_event(event)

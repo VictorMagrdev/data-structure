@@ -30,7 +30,7 @@ class Player:
 
         for i, card in enumerate(self.cards):
             card.x = self.x - (i * offset) + 30
-            card.y = self.y + 60
+            card.y = self.y + 45
             card.draw(screen)
 
         font = pygame.font.SysFont('Arial', 25)
