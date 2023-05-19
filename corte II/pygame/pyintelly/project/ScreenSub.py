@@ -130,18 +130,22 @@ def turn(buttonevent):
         player3.turno = False
         player2.turno  = False
         player1.turno = True
-    elif player1.turno == True and button1.handle_event(buttonevent):
-        player1.turno = False
-        player2.turno  = True
-        player3.turno = False
-    elif player2.turno == True and button2.handle_event(buttonevent):
-        player2.turno  = False
-        player1.turno = False
-        player3.turno = True
-    elif player3.turno == True and button3.handle_event(buttonevent):
-        player3.turno = False
-        player2.turno  = False
-        player1.turno = True
+        cruppier.analizarpuntaje()
+        cruppier.cruppierturn()
+        cruppier.determinar_resultados()
+    def plantarseturn(event):
+        if player1.turno == True and button1.handle_event(buttonevent):
+            player1.turno = False
+            player2.turno  = True
+            player3.turno = False
+        elif player2.turno == True and button2.handle_event(buttonevent):
+            player2.turno  = False
+            player1.turno = False
+            player3.turno = True
+        elif player3.turno == True and button3.handle_event(buttonevent):
+            player3.turno = False
+            player2.turno  = False
+            player1.turno = True
 
 
 def Okaction(opcion, screen_intern):
@@ -203,7 +207,6 @@ while run:
             cruppier.remove_cards_from_players()
         if start:
             cruppier.repartir_card()
-            cruppier.cruppierturn()
 
         for button in buttons:
             button.handle_event(event)

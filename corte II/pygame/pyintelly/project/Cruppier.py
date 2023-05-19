@@ -35,7 +35,6 @@ class Cruppier:
         self.analizarpuntaje()
 
     def determinar_resultados(self):
-
         if self.puntaje > 21:
             self.resultado = "Pierde"
         elif self.puntaje > max(jugador.puntaje for jugador in self.players):
@@ -85,7 +84,6 @@ class Cruppier:
             for carta in jugador.cards:
                 puntaje_total += carta.value
             jugador.puntaje = puntaje_total
-        self.determinar_resultados()
         
     def pedir_card(self, player):
         """
