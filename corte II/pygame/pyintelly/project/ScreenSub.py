@@ -1,5 +1,7 @@
 import pygame
 import os
+import re
+
 from TabbedPaneSub import TabbedPane
 from ButtonSub import Button
 from DropdownSub import OptionBox
@@ -51,9 +53,9 @@ button1 = ButtonCARD("Plantarme", [100, 400])
 button2 = ButtonCARD("Plantarme", [350, 400])
 button3 = ButtonCARD("Plantarme", [600, 400])
 
-player1 = Player("juan", 100, 415, button1)
-player2 = Player("pedro", 350, 415, button2)
-player3 = Player("daniel", 600, 415, button3)
+player1 = Player("juan", 100, 415, button1,True)
+player2 = Player("pedro", 350, 415, button2, False)
+player3 = Player("daniel", 600, 415, button3, True)
 
 panel1.dropdown = list1
 panel1.buttonok = buttonok
@@ -62,8 +64,10 @@ panel1.sllprint = imagenes
 
 buttonpedir = ButtonCARD("pedir", [400, 200])
 buttonstart = ButtonCARD("start", [10, 40])
+buttonreset = ButtonCARD("reset", [70, 40])
 cruppier = Cruppier("Victoria Petrov", 400, 220)
 cruppier.button = buttonpedir
+cruppier.resetbutton = buttonreset
 cruppier.startbutton = buttonstart
 cruppier.players.append(player1)
 cruppier.players.append(player2)
@@ -72,8 +76,18 @@ cruppier.players.append(player3)
 carpeta = "C:\\UAM\\TAD 1SEM 2023\\corte II\\pygame\\pyintelly\\project\\carpeta"
 
 for archivo in os.listdir(carpeta):
+    if "reverso" in archivo:
+        continue  
     path = os.path.join(carpeta, archivo)
-    card = Card(path, 0, 550, 60)
+    
+    if "AS" in archivo:
+        value = 1
+    elif "J" in archivo or "Q" in archivo or "K" in archivo:
+        value = 10
+    else:
+        num_str = re.search(r'\d+', archivo)
+        value = int(num_str.group()) if num_str else 0
+    card = Card(path, value, 550, 60)
     cruppier.baraja.append(card)
 
 panel2.crupier = cruppier
@@ -95,20 +109,39 @@ def reset(buttonintern):
 
 
 def turn(buttonevent):
-    if player1.button.turn and player1.button.handle_event(buttonevent):
+    if player1.puntaje == "Gana" or player1.puntaje == "Pierde" or player1.puntaje == "Empate":
+        pass
+    elif player2.puntaje == "Gana" or player2.puntaje == "Pierde" or player2.puntaje == "Empate":
+        pass
+    elif player3.puntaje == "Gana" or player3.puntaje == "Pierde" or player3.puntaje == "Empate":
+        pass
+    elif player1.turno == True and cruppier.button.handle_event(buttonevent):
         cruppier.pedir_card(player1)
-        button1.turn = False
-        button2.turn = True
-
-    elif player2.button.turn and player2.button.handle_event(buttonevent):
+        player1.turno = False
+        player2.turno  = True
+        player3.turno = False
+    elif player2.turno == True and cruppier.button.handle_event(buttonevent):
         cruppier.pedir_card(player2)
-        button2.turn = False
-        button3.turn = True
-
-    elif player3.button.turn and player3.button.handle_event(buttonevent):
+        player2.turno  = False
+        player1.turno = False
+        player3.turno = True
+    elif player3.turno == True and cruppier.button.handle_event(buttonevent):
         cruppier.pedir_card(player3)
-        button3.turn = False
-        button1.turn = True
+        player3.turno = False
+        player2.turno  = False
+        player1.turno = True
+    elif player1.turno == True and button1.handle_event(buttonevent):
+        player1.turno = False
+        player2.turno  = True
+        player3.turno = False
+    elif player2.turno == True and button2.handle_event(buttonevent):
+        player2.turno  = False
+        player1.turno = False
+        player3.turno = True
+    elif player3.turno == True and button3.handle_event(buttonevent):
+        player3.turno = False
+        player2.turno  = False
+        player1.turno = True
 
 
 def Okaction(opcion, screen_intern):
@@ -161,14 +194,16 @@ while run:
         if event.type == pygame.QUIT:
             run = False
         tabbed_pane.handle_event(event)
-        turn(event)
-
-        pedir = buttonpedir.handle_event(event)
-        if pedir:
-            cruppier.pedir_card()
+        
+        if buttonpedir.handle_event(event):
+            turn(event)
+        cruppier.shuffle()
         start = buttonstart.handle_event(event)
+        if buttonreset.handle_event(event):
+            cruppier.remove_cards_from_players()
         if start:
             cruppier.repartir_card()
+            cruppier.cruppierturn()
 
         for button in buttons:
             button.handle_event(event)
