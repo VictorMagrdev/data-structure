@@ -10,8 +10,8 @@ from facebook_visualization import UserExtractor
 
 json_file = r'C:\\UAM\\TAD 1SEM 2023\\corte II\\pygame\\pyintelly\\project\\project\\facebook_data.json'
 
+
 def extract_user_names_from_json(file_path):
-    
     with open(file_path, "r") as file:
         data = json.load(file)
     users = data["users"]
@@ -19,7 +19,8 @@ def extract_user_names_from_json(file_path):
 
     return user_names
 
-def drawnodefriends(name):
+
+def friendlessness(name):
     user_extractor = UserExtractor(json_file)
 
     user = user_extractor.get_user_by_name(name)
@@ -56,8 +57,8 @@ def drawnodefriends(name):
         imagebox = OffsetImage(image, zoom=0.15)
         ab = AnnotationBbox(imagebox, (x, y), frameon=False)
         ax.add_artist(ab)
-        ax.annotate(node, (x, y-0.05), ha='center', fontsize=8)
-        
+        ax.annotate(node, (x, y - 0.05), ha='center', fontsize=8)
+
     plt.show()
 
     image_path = "grafo_con_imagenes_y_nombres.png"
@@ -67,7 +68,6 @@ def drawnodefriends(name):
 
     return image
 
-drawnodefriends('Deanna Schultz')
 
 def drawnodefamily(name):
     user_extractor = UserExtractor(json_file)
@@ -108,7 +108,6 @@ def drawnodefamily(name):
     pos = nx.spring_layout(G)
     nx.draw_networkx(G, pos, node_color='skyblue', node_size=500, font_size=10, with_labels=False)
     nx.draw_networkx_nodes(G, pos, nodelist=G.nodes, node_color='red', node_size=500, node_shape='s')
-    nx.draw_networkx_labels(G, label_positions, labels=labels, font_size=8, verticalalignment='top')
 
     ax = plt.gca()
     for image, node in zip(images, G.nodes):
@@ -116,6 +115,7 @@ def drawnodefamily(name):
         imagebox = OffsetImage(image, zoom=0.15)
         ab = AnnotationBbox(imagebox, (x, y), frameon=False)
         ax.add_artist(ab)
+        ax.text(x, y - 0.15, labels[node], ha='center', va='top', fontsize=8, wrap=True)  # Ajuste del texto
 
     # Mostrar el grafo generado
     plt.show()
@@ -127,17 +127,74 @@ def drawnodefamily(name):
 
     return image
 
+drawnodefamily('Jeffrey Moran')
 
 
-drawnodefamily('Deanna Schultz')
+def drawnodecommunities(name):
+    user_extractor = UserExtractor(json_file)
+
+    user = user_extractor.get_user_by_name(name)
+    communities = user_extractor.get_user_communities(user)
+
+    G = nx.Graph()
+
+    G.add_node(name)
+    for community in communities:
+        G.add_edge(name, community)
+
+    image_folder_user = r'C:\\UAM\\TAD 1SEM 2023\\corte III\\project\\images'
+    image_folder_community = r'C:\\UAM\\TAD 1SEM 2023\\corte II\\pygame\\pyintelly\\project\\project\\community_images'
+
+    images = []
+    labels = {}
+    for node in G.nodes:
+        if node == name:
+            image_path = user_extractor.get_user_profile_image_url(user)
+            labels[node] = name  # Usuario principal
+            image_folder = image_folder_user
+        else:
+            community = user_extractor.get_community_by_name(node)
+            if community is not None:
+                image_path = community['image']
+                labels[node] = node  # Nombre de la comunidad
+                image_folder = image_folder_community
+
+        image_file = os.path.join(image_folder, image_path)
+        image = Image.open(image_file)
+        images.append(image)
+
+    plt.figure(figsize=(8, 6))
+    pos = nx.spring_layout(G)
+    nx.draw_networkx(G, pos, node_color='skyblue', node_size=500, font_size=10, with_labels=False)
+    nx.draw_networkx_nodes(G, pos, nodelist=G.nodes, node_color='red', node_size=500, node_shape='s')
+
+    ax = plt.gca()
+    for image, node in zip(images, G.nodes):
+        x, y = pos[node]
+        imagebox = OffsetImage(image, zoom=0.15)
+        ab = AnnotationBbox(imagebox, (x, y), frameon=False)
+        ax.add_artist(ab)
+        ax.text(x, y - 0.15, labels[node], ha='center', va='top', fontsize=8, wrap=True)  # Ajuste del texto
+
+    plt.show()
+
+    image_path = "grafo_comunidades_con_imagenes_y_nombres.png"
+    plt.savefig(image_path, format="png")
+
+    image = Image.open(image_path)
+
+    return image
+
+
+
 
 def draw_image(image_path, surface):
-        image = Image.open(image_path)
-        image = image.convert("RGBA") 
-        image = image.resize(surface.get_size())
+    image = Image.open(image_path)
+    image = image.convert("RGBA")
+    image = image.resize(surface.get_size())
 
-        image_data = image.tobytes()
+    image_data = image.tobytes()
 
-        pygame_image = pygame.image.fromstring(image_data, image.size, "RGBA")
+    pygame_image = pygame.image.fromstring(image_data, image.size, "RGBA")
 
-        surface.blit(pygame_image, (0, 0))
+    surface.blit(pygame_image, (0, 0))
