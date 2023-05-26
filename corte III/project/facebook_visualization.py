@@ -17,6 +17,11 @@ class UserExtractor:
                 return user
         return None
 
+    def get_friends_names(self, user):
+        friends = self.get_user_friends(user)
+        friend_names = [self.get_user_name(friend) for friend in friends]
+        return friend_names
+    
     def get_user_name(self, user):
         return user['name']
 
@@ -75,7 +80,7 @@ class UserExtractor:
 
 
 user_extractor = UserExtractor(r'C:\\UAM\\TAD 1SEM 2023\\corte III\\project\\facebook_data.json')
-user = user_extractor.get_user_by_name('Mr. Devin Gomez')
+user = user_extractor.get_user_by_name('Amy Ball')
 
 if user:
     name = user_extractor.get_user_name(user)
@@ -87,6 +92,7 @@ if user:
     groups = user_extractor.get_user_groups(user)
     communities = user_extractor.get_user_communities(user)
     friends = user_extractor.get_user_friends(user)
+    friendsnames = user_extractor.get_friends_names(user)
 
     print(f"Name: {name}")
     print(f"Email: {email}")
@@ -97,5 +103,6 @@ if user:
     print(f"Groups: {groups}")
     print(f"Communities: {communities}")
     print(f"Friends: {friends}")
+    print(f"Friendsnames: {friendsnames}")
 else:
     print("User not found.")

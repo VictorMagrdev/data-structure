@@ -1,3 +1,4 @@
+import json
 import pygame
 import os
 import re
@@ -15,6 +16,8 @@ from Player import Player
 from buttoncard import ButtonCARD
 from Cruppier import Cruppier
 from Card import Card
+from Panelgraphs import Panelgraphs
+from facebook_visualization import UserExtractor
 
 pygame.init()
 imagenes = Sllprint()
@@ -41,13 +44,47 @@ list1 = OptionBox(
      ])
 buttonok = ButtonOk(700, 340, 50, 30, "ok")
 GREEN = (0, 128, 0)
+Blue = (0, 0, 255)
+
+json_file = r'C:\\UAM\\TAD 1SEM 2023\\corte II\\pygame\\pyintelly\\project\\project\\facebook_data.json'
+
+def extract_user_names_from_json(file_path):
+    
+    with open(file_path, "r") as file:
+        data = json.load(file)
+    users = data["users"]
+    user_names = [user["name"] for user in users]
+
+    return user_names
+
+userlist = extract_user_names_from_json(json_file)
+
+dropdown1 = OptionBox(
+    600,35, 150, 20, Blue, (100, 200, 255), pygame.font.SysFont('', 25), userlist,
+    )
+dropdown2 = OptionBox(
+    600,70, 220, 30, Blue, (100, 200, 255), pygame.font.SysFont('', 25), ["red familiares", "red amigos"],
+    )
+dropdown3 = OptionBox(
+    600,150, 120, 30, Blue, (100, 200, 255), pygame.font.SysFont('', 25), [""],
+    )
+dropdown4 = OptionBox(
+    600,200, 280, 30, Blue, (100, 200, 255), pygame.font.SysFont('', 25), ["comunidades que ambos siguen"],
+    )
 
 panel1 = PanelSLL(0, 30, 942, 648, color)
 panel2 = Panelcards(0, 30, 942, 648, GREEN)
+panel3 = Panelgraphs(0, 30, 942, 648, GREEN)
+
+panel3.dropdownusuario = dropdown1
+panel3.dropdowngrafo = dropdown2
+panel3.dropdownamigo = dropdown3
+panel3.dropdowntipografo = dropdown4
 
 tabbed_pane = TabbedPane(0, 0, 620, 460)
 tabbed_pane.add_tab("SLL", panel1)
 tabbed_pane.add_tab("blackjact", panel2)
+tabbed_pane.add_tab("grafos", panel3)
 
 button1 = ButtonCARD("Plantarme", [100, 400])
 button2 = ButtonCARD("Plantarme", [350, 400])
@@ -98,7 +135,7 @@ button_images = ["dragonbordred.png",
 buttons = []
 x_pos = 10
 for image in button_images:
-    button = Button(x_pos, 60, 266, 266, f"C:\\UAM\\TAD 1SEM 2023\\corte II\\pygame\\project\\resources\\{image}")
+    button = Button(x_pos, 60, 266, 266, f"C:\\UAM\\TAD 1SEM 2023\\corte II\\pygame\\pyintelly\\project\\resources\\{image}")
     panel1.buttons.append(button)
     buttons.append(button)
     x_pos += 276
@@ -107,6 +144,10 @@ for image in button_images:
 def reset(buttonintern):
     buttonintern.checked = False
 
+def update_friends(user):
+    userid = UserExtractor(json_file).get_user_by_name(user)
+    friends = UserExtractor(json_file).get_friends_names(userid)
+    dropdown3.option_list = friends
 
 def turn(buttonevent):
     if player1.puntaje == "Gana" or player1.puntaje == "Pierde" or player1.puntaje == "Empate":
@@ -198,7 +239,14 @@ while run:
         if event.type == pygame.QUIT:
             run = False
         tabbed_pane.handle_event(event)
-        
+        if dropdown1.update(event_list) >= 0:
+            list1.updateposicion()
+            userelection = dropdown1.selectionoption()
+            update_friends(userelection)
+            
+        dropdown2.update(event_list)
+        dropdown3.update(event_list)
+        dropdown4.update(event_list)
         if buttonpedir.handle_event(event):
             turn(event)
             

@@ -19,6 +19,7 @@ class OptionBox(Component):
         self.rect = pygame.Rect(x, y, width, height)
 
     def draw(self, screen):
+        NEGRO = (0, 0, 0)
         pygame.draw.rect(screen, self.highlight_color if self.menu_active else self.color, self.rect)
         pygame.draw.rect(screen, NEGRO, self.rect, 2)
         msg = self.font.render(self.option_list[self.selected], 1, NEGRO)
@@ -37,6 +38,9 @@ class OptionBox(Component):
 
     def updateposicion(self):
         return self.active_option
+    
+    def selectionoption(self):
+        return self.option_list[self.active_option]
 
     def update(self, event_list):
         mpos = pygame.mouse.get_pos()

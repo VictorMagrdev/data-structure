@@ -10,6 +10,12 @@ class UserExtractor:
         with open(self.json_file, 'r') as file:
             data = json.load(file)
         return data
+    
+    def get_user_id_by_name(self, name):
+        for user in self.users:
+            if user['name'] == name:
+                return user['id']
+        return None
 
     def get_user_by_name(self, name):
         for user in self.users:
