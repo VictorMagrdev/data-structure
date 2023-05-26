@@ -1,3 +1,5 @@
+# facebook_visualization_module.py
+
 import os
 from PIL import Image
 from matplotlib.offsetbox import AnnotationBbox, OffsetImage
@@ -7,6 +9,7 @@ import json
 import pygame
 
 from facebook_visualization import UserExtractor
+
 
 json_file = r'C:\\UAM\\TAD 1SEM 2023\\corte II\\pygame\\pyintelly\\project\\project\\facebook_data.json'
 
@@ -139,7 +142,7 @@ def friendlessness(name):
 
     return image
 
-friendlessness('Lisa Kim')
+
 
 
 def drawnodefamily(name):
@@ -198,7 +201,6 @@ def drawnodefamily(name):
 
     return image
 
-
 def drawnodecommunities(name):
     user_extractor = UserExtractor(json_file)
 
@@ -254,6 +256,8 @@ def drawnodecommunities(name):
 
     return image
 
+
+drawnodecommunities('Lisa Kim')
 
 def drawuserandfriend(name, friend_name):
     user_extractor = UserExtractor(json_file)

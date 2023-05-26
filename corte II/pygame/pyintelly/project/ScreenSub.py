@@ -1,7 +1,9 @@
 import json
+
 import pygame
 import os
 import re
+import graphvisualization
 
 from TabbedPaneSub import TabbedPane
 from ButtonSub import Button
@@ -65,12 +67,16 @@ dropdown1 = OptionBox(
 dropdown2 = OptionBox(
     600,70, 220, 30, Blue, (100, 200, 255), pygame.font.SysFont('', 25), ["red familiares", "red amigos"],
     )
+
+buttonredespropias = ButtonOk(600, 110, 100, 20, "dibujar")
+
 dropdown3 = OptionBox(
-    600,150, 120, 30, Blue, (100, 200, 255), pygame.font.SysFont('', 25), [""],
+    600,150, 180, 30, Blue, (100, 200, 255), pygame.font.SysFont('', 25), [""],
     )
 dropdown4 = OptionBox(
     600,200, 280, 30, Blue, (100, 200, 255), pygame.font.SysFont('', 25), ["comunidades que ambos siguen"],
     )
+buttonrfriends = ButtonOk(600, 260, 100, 20, "dibujar")
 
 panel1 = PanelSLL(0, 30, 942, 648, color)
 panel2 = Panelcards(0, 30, 942, 648, GREEN)
@@ -80,6 +86,8 @@ panel3.dropdownusuario = dropdown1
 panel3.dropdowngrafo = dropdown2
 panel3.dropdownamigo = dropdown3
 panel3.dropdowntipografo = dropdown4
+panel3.buttons.append(buttonredespropias)
+panel3.buttons.append(buttonrfriends)
 
 tabbed_pane = TabbedPane(0, 0, 620, 460)
 tabbed_pane.add_tab("SLL", panel1)
@@ -239,6 +247,17 @@ while run:
         if event.type == pygame.QUIT:
             run = False
         tabbed_pane.handle_event(event)
+        
+        if buttonredespropias.handle_event(event):
+            if dropdown2.selectionoption == "red familiares":
+                user = dropdown1.selectionoption
+                image = graphvisualization.drawnodefamily(user)
+                panel3.drawimage(screen, image)
+            elif dropdown2.selectionoption ==  "red amigos":
+                user = dropdown1.selectionoption
+                image = graphvisualization.drawnodefriends(user)
+                panel3.drawimage(screen, image)
+        
         if dropdown1.update(event_list) >= 0:
             list1.updateposicion()
             userelection = dropdown1.selectionoption()

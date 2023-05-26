@@ -5,6 +5,8 @@ class UserExtractor:
         self.json_file = json_file
         self.data = self.load_json()
         self.users = self.data['users']
+        
+        self.communities = self.data['communities']
 
     def load_json(self):
         with open(self.json_file, 'r') as file:
@@ -17,6 +19,12 @@ class UserExtractor:
                 return user
         return None
 
+    def get_community_by_name(self, name):
+        for community in self.communities:
+            if community['name'] == name:
+                return community
+        return None
+    
     def get_friends_names(self, user):
         friends = self.get_user_friends(user)
         friend_names = [self.get_user_name(friend) for friend in friends]

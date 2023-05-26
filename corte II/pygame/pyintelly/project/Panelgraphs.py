@@ -18,12 +18,15 @@ class Panelgraphs(Panel):
         self.dropdowntipografo = None
         
     def drawimage(self, screen, image):
-        image = pygame.image.load('ruta_de_la_imagen.jpg')
+        image = pygame.image.load(image)
         screen.blit(self.image, (self.x, self.y))
         
     def draw(self, screen):
         screen.blit(self.surface, (self.x, self.y))
+        for i in self.buttons:
+            i.draw(screen)
         self.dropdowngrafo.draw(screen)
         self.dropdowntipografo.draw(screen)
         self.dropdownamigo.draw(screen)
         self.dropdownusuario.draw(screen)
+        
